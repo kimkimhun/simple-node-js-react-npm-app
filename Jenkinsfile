@@ -1,29 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:12.11.0-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
+    agent none
     environment {
-      CI = 'true'
+        CI = 'true'
     }
     stages {
-        stage('Build') { 
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:12.11.0-alpine' 
+                    args '-p 3000:3000' 
+                }
+            }
             steps {
-                sh 'yarn install' 
+                sh 'yarn install'
+                sh './jenkins/scripts/test.sh'
             }
         }
-        stage('Test') {
-          steps {
-            sh './jenkins/scripts/test.sh'
-          }
-        }
-        stage('Deliver') {
+        stage('Build&Push Image') {
+            agent any
             steps {
-                sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
+                sh './build-image.sh'
             }
         }
     }
