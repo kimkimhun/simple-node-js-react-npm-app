@@ -26,5 +26,11 @@ pipeline {
                 sh './build-image.sh'
             }
         }
+        stage('Deploy') {
+            agent any
+            steps {
+                sh './deploy.sh'
+            }
+        }
     }
 }

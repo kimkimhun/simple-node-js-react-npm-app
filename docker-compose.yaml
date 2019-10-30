@@ -1,0 +1,9 @@
+version: "3"
+services:
+  website:
+    image: "veckenz/simple-react:${TAG}"
+    container_name: website
+    hostname: website
+    ports:
+      - 80:80
+    restart: unless-stopped
