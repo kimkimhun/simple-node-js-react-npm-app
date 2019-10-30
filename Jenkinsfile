@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 sh "docker login --username $DOCKER_HUB_CREDS_USR --password $DOCKER_HUB_CREDS_PSW"
-                // sh './build-image.sh'
+                sh './build-image.sh'
             }
         }
     }
