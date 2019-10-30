@@ -18,8 +18,12 @@ pipeline {
         }
         stage('Build&Push Image') {
             agent any
+            environment {
+                DOCKER_HUB_CREDS = credentials('jenkins-token-docker-hub')
+            }
             steps {
-                sh './build-image.sh'
+                sh "docker login --username $DOCKER_HUB_CREDS_USR --password $DOCKER_HUB_CREDS_PSW"
+                // sh './build-image.sh'
             }
         }
     }
